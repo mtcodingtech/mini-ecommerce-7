@@ -3,14 +3,24 @@ import { useProductsByCategory } from "@/hooks/useProductsByCategory";
 import { ProductType } from "@/types/general-types";
 import { Alert, Container, Grid, Typography } from "@mui/material";
 import ProductCard from "./ProductCard";
+import ProductCardSkeleton from "./ProductCardSkeleton";
 
 function Products() {
   const { data: productData, isLoading, isError } = useProductsByCategory();
 
   if (isLoading) {
     return (
-      <Container maxWidth="lg" sx={{ py: 5 }}>
-        <Typography color="text.secondary">Loading products...</Typography>
+      <Container maxWidth="lg" sx={{ py: 5 }} aria-busy>
+        <Typography component="h1" variant="h4" sx={{ mb: 3, fontWeight: 700 }}>
+          Shop products
+        </Typography>
+        <Grid container spacing={2.5}>
+          {Array.from({ length: 8 }).map((_, index) => (
+            <Grid key={index} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <ProductCardSkeleton />
+            </Grid>
+          ))}
+        </Grid>
       </Container>
     );
   }
