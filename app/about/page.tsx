@@ -7,7 +7,7 @@ function About() {
   console.log("About selectedCategory", selectedCategory);
   return (
     <div>
-      <h2>Khin</h2>
+      <h2>MT</h2>
     </div>
   );
 }
