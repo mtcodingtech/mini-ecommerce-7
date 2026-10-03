@@ -8,6 +8,8 @@ function About() {
   return (
     <div>
       <h2>Khin Khin</h2>
+
+      <h2>MT</h2>
     </div>
   );
 }
