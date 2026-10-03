@@ -5,7 +5,11 @@ import React from "react";
 function About() {
   const { selectedCategory } = useCategoryStore();
   console.log("About selectedCategory", selectedCategory);
-  return <div>page</div>;
+  return (
+    <div>
+      <h2>Khin</h2>
+    </div>
+  );
 }
 
 export default About;
