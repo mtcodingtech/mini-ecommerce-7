@@ -15,6 +15,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Badge from "@mui/material/Badge";
+import ShoppingCartOutlined from "@mui/icons-material/ShoppingCartOutlined";
+import Link from "next/link";
+import { selectTotalQuantity, useCartStore } from "@/store/useCartStore";
 
 interface Props {
   /**
@@ -25,11 +29,17 @@ interface Props {
 }
 
 const drawerWidth = 240;
-const navItems = ["Home", "About", "Contact"];
+const navItems = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Cart", href: "/cart" },
+];
 
 export default function CustomAppBar(props: Props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const totalQuantity = useCartStore(selectTotalQuantity);
+  const openDrawer = useCartStore((state) => state.openDrawer);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -43,9 +53,13 @@ export default function CustomAppBar(props: Props) {
       <Divider />
       <List>
         {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
-              <ListItemText primary={item} />
+          <ListItem key={item.label} disablePadding>
+            <ListItemButton
+              component={Link}
+              href={item.href}
+              sx={{ textAlign: "center" }}
+            >
+              <ListItemText primary={item.label} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -77,13 +91,35 @@ export default function CustomAppBar(props: Props) {
           >
             My Store
           </Typography>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: "block", sm: "none" } }}
+          >
+            My Store
+          </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navItems.map((item) => (
-              <Button key={item} sx={{ color: "#fff" }}>
-                {item}
+              <Button
+                key={item.label}
+                component={Link}
+                href={item.href}
+                sx={{ color: "#fff" }}
+              >
+                {item.label}
               </Button>
             ))}
           </Box>
+          <IconButton
+            color="inherit"
+            aria-label={`Open cart, ${totalQuantity} items`}
+            onClick={openDrawer}
+            sx={{ ml: 1 }}
+          >
+            <Badge badgeContent={totalQuantity} color="error" max={99}>
+              <ShoppingCartOutlined />
+            </Badge>
+          </IconButton>
         </Toolbar>
       </AppBar>
       <nav>

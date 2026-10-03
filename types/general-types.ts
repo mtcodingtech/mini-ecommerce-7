@@ -14,3 +14,8 @@ export type ProductType = {
     stock: number;
     thumbnail: string;
 }
+
+export type CartItemType = {
+    product: ProductType;
+    quantity: number;
+}

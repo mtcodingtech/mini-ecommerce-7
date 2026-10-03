@@ -1,10 +1,13 @@
 "use client";
 
+import { getUnitPrice, useCartStore } from "@/store/useCartStore";
 import { ProductType } from "@/types/general-types";
+import AddShoppingCart from "@mui/icons-material/AddShoppingCart";
 import Favorite from "@mui/icons-material/Favorite";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import {
   Box,
+  Button,
   Card,
   CardMedia,
   Chip,
@@ -21,8 +24,9 @@ interface ProductCardProps {
 
 function ProductCard({ product }: ProductCardProps) {
   const [isFavorite, setIsFavorite] = useState(false);
-  const discountedPrice =
-    product.price * (1 - product.discountPercentage / 100);
+  const addToCart = useCartStore((state) => state.addToCart);
+  const discountedPrice = getUnitPrice(product);
+  const isOutOfStock = product.stock === 0;
 
   return (
     <Card
@@ -136,6 +140,16 @@ function ProductCard({ product }: ProductCardProps) {
             ${product.price.toFixed(2)}
           </Typography>
         </Stack>
+
+        <Button
+          variant="contained"
+          startIcon={<AddShoppingCart />}
+          disabled={isOutOfStock}
+          onClick={() => addToCart(product)}
+          sx={{ mt: 1 }}
+        >
+          {isOutOfStock ? "Out of stock" : "Add to cart"}
+        </Button>
       </Stack>
     </Card>
   );
